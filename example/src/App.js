@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-import { ExampleComponent } from 'simple-reactjs-inputs'
+import { NumberInput, TextInput } from 'simple-reactjs-inputs'
 import 'simple-reactjs-inputs/dist/index.css'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  const [num,setNum] = useState('')
+  return <TextInput value={num} setValue={setNum} label='Number' labelPos='top'/>
 }
 
 export default App
