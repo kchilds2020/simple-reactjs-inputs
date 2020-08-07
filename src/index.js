@@ -1,3 +1,5 @@
+/* eslint-disable spaced-comment */
+/* eslint-disable prettier/prettier */
 import styles from './styles.module.css'
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
@@ -51,6 +53,77 @@ export const TextInput = ({phText='',labelPos='none', value='', setValue = () =>
                     onChange = {(e) => setValue(e.target.value)}
                     minLength={minLength}
                     maxLength={maxLength}
+                />}
+        </Container>        
+    )
+}
+
+
+export const TelInput = ({phText='',labelPos='none', value='', setValue = () => null, label='label', minLength='0', maxLength='1000' }) => {
+    const [id, setID] = useState('')
+    const [prevLength, setPrevLength] = useState(0)
+
+    useEffect(() => {
+        setID(`${Math.floor((Math.random() * 10000) + 1)}`)
+    },[])
+
+    const validateFormat = (e) => {
+        e.preventDefault()
+
+        console.log(e.target.value.length, prevLength)
+        console.log(e.target.value)
+
+        if(e.target.value.length === 4 || e.target.value.length === 8){
+            e.target.value.length > prevLength ? setValue(e.target.value.slice(0, e.target.value.length - 1) + "-" + e.target.value.slice(e.target.value.length-1)) : setValue(e.target.value.slice(0, e.target.value.length - 1))
+            e.target.value.length > prevLength ? setPrevLength(e.target.value.length + 1) : setPrevLength(e.target.value.length - 1)
+        }else{
+            setValue(e.target.value)
+            setPrevLength(parseInt(e.target.value.length))
+        }
+
+        
+    }
+    
+    return (
+        <Container>
+            {labelPos === 'left' ? (
+                <FDRow>
+                    <Label htmlFor={id}>{label}</Label>
+                    <Input 
+                        id={id}
+                        type = 'tel'
+                        placeholder = {phText}
+                        value = {value}
+                        onChange = {validateFormat}
+                        minLength={minLength}
+                        maxLength='12'
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    />  
+                </FDRow>
+            ) : labelPos === 'top' ? (
+                <FDCol>
+                    <Label htmlFor={id}>{label}</Label>
+                    <Input 
+                        id={id}
+                        type = 'tel'
+                        placeholder = {phText}
+                        value = {value}
+                        onChange = {validateFormat}
+                        minLength={minLength}
+                        maxLength='12'
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    />   
+                </FDCol>
+            ) :  
+                <Input 
+                    id={id}
+                    type = 'tel'
+                    placeholder = {phText}
+                    value = {value}
+                    onChange = {validateFormat}
+                    minLength={minLength}
+                    maxLength='12'
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 />}
         </Container>        
     )
